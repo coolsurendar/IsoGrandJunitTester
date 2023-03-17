@@ -4,35 +4,33 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.List;
-
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 
+class IsoContestTest {
 
-public class IsoContestTest {
-
-  String extractedDirectory="/home/surendar/mdf2023/MasterDevFrance2023/src/test/resources/";
-
-  public String[] readInput(String fileName) throws IOException {
-    List<String> result = Files.readAllLines(Paths.get(extractedDirectory+fileName));
-    return result.toArray(new String[0]);
-  }
 
   public byte[] readInputToBytes(String fileName) throws IOException {
-    return Files.readAllBytes(Paths.get(extractedDirectory+fileName));
+    return Files.readAllBytes(readFile(fileName).toPath());
+  }
+
+  private File readFile(String fileName) {
+    ClassLoader classLoader = getClass().getClassLoader();
+    return new File(classLoader.getResource(fileName).getFile());
   }
 
   public String[] readOutput(String fileName) throws IOException {
-    List<String> result = Files.readAllLines(Paths.get(extractedDirectory+fileName));
+    List<String> result = Files.readAllLines(readFile(fileName).toPath());
     return result.toArray(new String[0]);
   }
 
@@ -53,125 +51,28 @@ public class IsoContestTest {
     System.setErr(originalErr);
   }
 
-  @Test
-  public void testMain1() throws Exception {
+   @ParameterizedTest
+   @CsvSource({
+       "input1.txt, output1.txt",
+       "input2.txt, output2.txt",
+       "input3.txt, output3.txt",
+       "input4.txt, output4.txt",
+       "input5.txt, output5.txt",
+       "input6.txt, output6.txt",
+       "input7.txt, output7.txt",
+       "input8.txt, output8.txt",
+       "input9.txt, output9.txt",
+   })
+  void should_test_main_function(String inputFile,String outputFile) throws Exception {
 
     InputStream sysInBackup = System.in; // backup System.in to restore it later
-    ByteArrayInputStream in = new ByteArrayInputStream(readInputToBytes("input1.txt"));
+    ByteArrayInputStream in = new ByteArrayInputStream(readInputToBytes(inputFile));
     System.setIn(in);
 
     IsoContest.main(new String[0]);
 
     // optionally, reset System.in to its original
     System.setIn(sysInBackup);
-    assertEquals(readOutput("output1.txt")[0].trim(), outContent.toString().trim());
-  }
-  @Test
-  public void testMain2() throws Exception {
-
-    InputStream sysInBackup = System.in; // backup System.in to restore it later
-    ByteArrayInputStream in = new ByteArrayInputStream(readInputToBytes("input2.txt"));
-    System.setIn(in);
-
-    IsoContest.main(new String[0]);
-
-    // optionally, reset System.in to its original
-    System.setIn(sysInBackup);
-    assertEquals(readOutput("output2.txt")[0].trim(), outContent.toString().trim());
-  }
-  @Test
-  public void testMain3() throws Exception {
-
-    InputStream sysInBackup = System.in; // backup System.in to restore it later
-    ByteArrayInputStream in = new ByteArrayInputStream(readInputToBytes("input3.txt"));
-    System.setIn(in);
-
-    IsoContest.main(new String[0]);
-
-    // optionally, reset System.in to its original
-    System.setIn(sysInBackup);
-    assertEquals(readOutput("output3.txt")[0].trim(), outContent.toString().trim());
-  }
-  @Test
-  public void testMain4() throws Exception {
-
-    InputStream sysInBackup = System.in; // backup System.in to restore it later
-    ByteArrayInputStream in = new ByteArrayInputStream(readInputToBytes("input4.txt"));
-    System.setIn(in);
-
-    IsoContest.main(new String[0]);
-
-    // optionally, reset System.in to its original
-    System.setIn(sysInBackup);
-    assertEquals(readOutput("output4.txt")[0].trim(), outContent.toString().trim());
-  }
-  @Test
-  public void testMain5() throws Exception {
-
-    InputStream sysInBackup = System.in; // backup System.in to restore it later
-    ByteArrayInputStream in = new ByteArrayInputStream(readInputToBytes("input5.txt"));
-    System.setIn(in);
-
-    IsoContest.main(new String[0]);
-
-    // optionally, reset System.in to its original
-    System.setIn(sysInBackup);
-    assertEquals(readOutput("output5.txt")[0].trim(), outContent.toString().trim());
-  }
-
-  @Test
-  public void testMain6() throws Exception {
-
-    InputStream sysInBackup = System.in; // backup System.in to restore it later
-    ByteArrayInputStream in = new ByteArrayInputStream(readInputToBytes("input6.txt"));
-    System.setIn(in);
-
-    IsoContest.main(new String[0]);
-
-    // optionally, reset System.in to its original
-    System.setIn(sysInBackup);
-    assertEquals(readOutput("output6.txt")[0].trim(), outContent.toString().trim());
-  }
-
-  @Test
-  public void testMain7() throws Exception {
-
-    InputStream sysInBackup = System.in; // backup System.in to restore it later
-    ByteArrayInputStream in = new ByteArrayInputStream(readInputToBytes("input7.txt"));
-    System.setIn(in);
-
-    IsoContest.main(new String[0]);
-
-    // optionally, reset System.in to its original
-    System.setIn(sysInBackup);
-    assertEquals(readOutput("output7.txt")[0].trim(), outContent.toString().trim());
-  }
-
-  @Test
-  public void testMain8() throws Exception {
-
-    InputStream sysInBackup = System.in; // backup System.in to restore it later
-    ByteArrayInputStream in = new ByteArrayInputStream(readInputToBytes("input8.txt"));
-    System.setIn(in);
-
-    IsoContest.main(new String[0]);
-
-    // optionally, reset System.in to its original
-    System.setIn(sysInBackup);
-    assertEquals(readOutput("output8.txt")[0].trim(), outContent.toString().trim());
-  }
-
-  @Test
-  public void testMain9() throws Exception {
-
-    InputStream sysInBackup = System.in; // backup System.in to restore it later
-    ByteArrayInputStream in = new ByteArrayInputStream(readInputToBytes("input9.txt"));
-    System.setIn(in);
-
-    IsoContest.main(new String[0]);
-
-    // optionally, reset System.in to its original
-    System.setIn(sysInBackup);
-    assertEquals(readOutput("output9.txt")[0].trim(), outContent.toString().trim());
+    assertEquals(readOutput(outputFile)[0].trim(), outContent.toString().trim());
   }
 }
