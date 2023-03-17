@@ -1,6 +1,6 @@
 # IsoGrandJunitTester
 
-The project helps to test code challenges available in websistes like IsoGrand
+The project helps to test code challenges available in websistes like IsoGrand.
 While working on code challenges, I had to find a easy way to test the new code challenges and hence wrote few junit tests that help me with this.
 The website gives the input and output txt files. The Junit test here simply reads and sends as an input to the program. 
 
